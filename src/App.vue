@@ -59,7 +59,8 @@
   color: #00e1ff;
 }
 .background-fun{
-  background: linear-gradient(90deg, rgb(0, 0, 0) 0%, rgba(9, 71, 121, 0.6) 45%, rgba(151,7,150,.6) 55%, rgb(0, 0, 0) 100%);
+  /* background: linear-gradient(90deg, rgb(0, 0, 0) 0%, rgba(9, 71, 121, 0.6) 45%, rgba(151,7,150,.6) 55%, rgb(0, 0, 0) 100%); */
+  background: black;
   min-height: 94vh;
 }
 </style>

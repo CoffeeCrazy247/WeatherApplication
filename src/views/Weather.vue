@@ -9,22 +9,35 @@
           {{ geoData.results[0].components.state }}
         </p>
       </div>
-      <b-input-group>
-        <b-input-group-prepend>
-          <span class="input-group-text">
-            <b-icon icon="map"></b-icon>
-            &nbsp; Enter Zip:
-          </span>
-        </b-input-group-prepend>
-        <b-form-input
-          class="text-gradient"
-          v-model="weatherZip"
-          placeholder="Enter Zip"
-          @keyup.enter="getZip()"
-        ></b-form-input>
-        <b-button @click="locateMe">Get location</b-button>
-      </b-input-group>
-      <weather-current class="weather-current-area" v-if="geoData != null" v-model="formatCurrentData" />
+      <div class="input-group-format">
+        <b-input-group>
+          <b-input-group-prepend>
+            <span class="input-group-text">
+              <b-icon icon="map"></b-icon>
+              &nbsp; Enter Zip:
+            </span>
+          </b-input-group-prepend>
+          <b-form-input
+            class="text-gradient"
+            v-model="weatherZip"
+            placeholder="Enter Zip"
+            @keyup.enter="getZip()"
+          ></b-form-input>
+          <b-button @click="locateMe">Get location</b-button>
+          <b-input-group-prepend>
+            <b-form-select
+              class="icon-select"
+              v-model="selected"
+              :options="weatherIconSelect"
+            ></b-form-select>
+          </b-input-group-prepend>
+        </b-input-group>
+      </div>
+      <weather-current
+        class="weather-current-area"
+        v-if="geoData != null"
+        v-model="formatCurrentData"
+      />
       <weather-daily v-if="geoData != null" v-model="formatDailyData" />
       <weather-minutely v-if="geoData != null" v-model="formatMinutelyData" />
     </div>
@@ -62,6 +75,15 @@ export default {
       errorStr: null,
       geoData: null,
       newIconFile: null,
+      weatherIconSelect: [
+        "light",
+        "dark",
+        "colorful",
+        "flat_white",
+        "flat_black",
+        "flat_colorful",
+      ],
+      selected: "dark",
       weatherIconTable: [
         {
           TimeofDay: "Day",
@@ -210,9 +232,7 @@ export default {
       ],
     };
   },
-  mounted: function () {
-
-  },
+  mounted: function () {},
   methods: {
     getNewIcon(input) {
       for (var i = 0; i < this.weatherIconTable.length; i++) {
@@ -380,6 +400,7 @@ export default {
             weatherdesc: this.toTitleCase(item.weather[0].description),
             weathericon: `https://openweathermap.org/img/wn/${item.weather[0].icon}@${this.iconsize}x.png`,
             weatherfile: this.getNewIcon(item.weather[0].icon),
+            iconselected: this.selected,
           };
           formattedArray.push(formattedData);
         }
@@ -485,6 +506,8 @@ export default {
           wind_deg: item.wind_deg,
           wind_style: "transform: rotate(" + item.wind_deg + "deg)",
           wind_gust: this.openWeatherData.daily[0].wind_gust.toFixed(),
+          weatherfile: this.getNewIcon(item.weather[0].icon),
+          iconselected: this.selected,
         };
         formattedArray.push(formattedData);
       }
@@ -523,17 +546,19 @@ export default {
 </script>
 
 <style scoped>
-.weather-current-area{
+.weather-current-area {
   margin: 10px;
 }
 .geodata-format {
   color: white;
   display: inline-flex;
 }
+.input-group-format {
+  max-width: 90%;
+}
 .main-div {
 }
 .main-div-child {
-
 }
 #weather-minutely {
 }

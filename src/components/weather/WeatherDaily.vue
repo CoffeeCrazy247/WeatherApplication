@@ -1,9 +1,5 @@
 <template>
   <div>
-    <b-form-select
-      v-model="selected"
-      :options="weatherIconSelect"
-    ></b-form-select>
     <div class="card-container">
       <b-card-group>
         <b-card class="format-card" :key="index" v-for="(item, index) in value">
@@ -11,9 +7,8 @@
               {{ item.dt }}
             </p>
           <b-img
-            v-if="selected != null"
             :src="
-              require('../../assets/weathericons/' + selected + '/' + item.weatherfile)
+              require('../../assets/weathericons/' + item.iconselected + '/' + item.weatherfile)
             "
           ></b-img>
           <!-- :src="require(`../assets/weathericons/${this.selected}/00.svg`)" -->
@@ -29,24 +24,21 @@ export default {
   props: ["value"],
   data() {
     return {
-      weatherIconSelect: [
-        "light",
-        "dark",
-        "colorful",
-        "flat_white",
-        "flat_black",
-        "flat_colorful",
-      ],
-      selected: "dark"
+
     };
   },
 };
 </script>
 
 <style scoped>
+.format-card:hover{
+  transform: scale(1.1);
+  transition: transform 0.4s;
+}
 .format-card {
   background: transparent;
   border: transparent;
+  transition: transform 0.4s;
 }
 .card-container {
 
