@@ -7,7 +7,6 @@
           {{ geoData.results[0].components.country }} |
           {{ geoData.results[0].components.city }} |
           {{ geoData.results[0].components.state }}
-          
         </p>
       </div>
       <div class="input-group-format">
